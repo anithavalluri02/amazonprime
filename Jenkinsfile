@@ -1,10 +1,7 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK11'
-    }
+    
 
     stages {
         stage('Checkout') {
@@ -37,16 +34,16 @@ pipeline {
         stage('Deploy to Docker Swarm') {
             steps {
                 script {
-                    // remove existing service (ignore errors if not exist)
+                    // remove existing service if it exists
                     sh 'docker service rm amazonprime || true'
 
-                    // deploy as a new swarm service
+                    // create (or recreate) the swarm service
                     sh '''
                     docker service create \
                         --name amazonprime \
                         --publish 2000:8080 \
                         --replicas 2 \
-                        your-dockerhub-user/amazonprime:latest
+                        anithavalluri/amazonprime:latest
                     '''
                 }
             }
