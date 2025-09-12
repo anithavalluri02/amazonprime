@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo/amazonprime.git'
+                git 'https://github.com/anithavalluri02/amazonprime.git'
             }
         }
 
