@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/anithavalluri02/amazonprime.git'
+                git url:'https://github.com/anithavalluri02/amazonprime.git'
             }
         }
 
