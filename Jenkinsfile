@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url:'https://github.com/anithavalluri02/amazonprime.git'
+                git branch: 'main', url: 'https://github.com/anithavalluri02/amazonprime.git'
             }
         }
 
