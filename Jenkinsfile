@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'
-        jdk 'JDK11'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,7 +10,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                // skip tests for now to avoid pipeline failure
                 sh 'mvn clean package -DskipTests'
             }
         }
@@ -38,7 +32,6 @@ pipeline {
         stage('Deploy to Docker Swarm') {
             steps {
                 script {
-                    // if service exists -> update, else create
                     def serviceExists = sh(script: "docker service ls --filter name=amazonprime -q", returnStdout: true).trim()
                     if (serviceExists) {
                         sh '''
