@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3'   // must be configured in Jenkins Global Tools
-        jdk 'JDK11'      // same here
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,17 +10,17 @@ pipeline {
 
         stage('Build') {
             steps {
-                dir('amazonprime') {
-                    sh 'mvn clean package -DskipTests'
-                }
+                sh '''
+                    echo "Cleaning old target directory..."
+                    rm -rf target
+                    mvn clean package -DskipTests
+                '''
             }
         }
 
         stage('Docker Build') {
             steps {
-                dir('amazonprime') {
-                    sh 'docker build -t anithavalluri/amazonprime:latest .'
-                }
+                sh 'docker build -t anithavalluri/amazonprime:latest .'
             }
         }
 
