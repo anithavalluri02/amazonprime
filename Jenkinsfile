@@ -21,6 +21,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 sh 'docker build -t anithavalluri/amazonprime:latest .'
+                sh 'docker push anithavalluri/amazonprime:latest'
             }
         }
 
