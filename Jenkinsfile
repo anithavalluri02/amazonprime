@@ -20,12 +20,14 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                withCredentials([string(credentialsId: 'anithavalluri-docker', variable: 'DOCKER_TOKEN')]) {
-                    sh '''
-                        echo $DOCKER_TOKEN | docker login -u anithavalluri --password-stdin
-                        docker build -t anithavalluri/amazonprime:latest .
-                        docker push anithavalluri/amazonprime:latest
-                    '''
+               withCredentials([usernamePassword(credentialsId: 'anithavalluri-docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+    sh '''
+        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        docker build -t anithavalluri/amazonprime:latest .
+        docker push anithavalluri/amazonprime:latest
+    '''
+
+
                 }
             }
         }
