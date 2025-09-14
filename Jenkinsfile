@@ -18,18 +18,14 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t anithavalluri/amazonprime:latest .'
-                sh 'docker push anithavalluri/amazonprime:latest'
-            }
-        }
-
-        stage('Docker Push') {
+        stage('Docker Build & Push') {
             steps {
                 withCredentials([string(credentialsId: 'anithavalluri-docker', variable: 'DOCKER_TOKEN')]) {
-                    sh 'echo $DOCKER_TOKEN | docker login -u anithavalluri --password-stdin'
-                    sh 'docker push anithavalluri/amazonprime:latest'
+                    sh '''
+                        echo $DOCKER_TOKEN | docker login -u anithavalluri --password-stdin
+                        docker build -t anithavalluri/amazonprime:latest .
+                        docker push anithavalluri/amazonprime:latest
+                    '''
                 }
             }
         }
